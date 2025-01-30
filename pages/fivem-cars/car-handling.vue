@@ -1,31 +1,61 @@
 <template>
+    <!-- New Buttons -->
+    <div class="mt-6 flex justify-center space-x-6">
+        <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            @click="showButtonPopover('rageImport')"
+        >
+            Rage Import
+        </button>
+        <button
+            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            @click="showButtonPopover('rage1of1')"
+        >
+            Rage 1 of 1
+        </button>
+        <button
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            @click="showButtonPopover('ragePoliceDep')"
+        >
+            Rage Police Dep
+        </button>
+    </div>
+
+    <!-- Popover for Buttons -->
+    <div
+      v-if="buttonPopoverVisible"
+      class="popover bg-white text-black p-4 rounded shadow-lg mt-4"
+      style="white-space: pre-line;"
+    >
+      <button @click="closeButtonPopover" class="absolute top-2 right-2 text-red-500 font-bold">&times;</button>
+      <h2 class="font-bold mb-2">{{ currentButton }}</h2>
+      <p>{{ buttonPopoverContent }}</p>
+    </div>
+
+
     <div class="p-4 bg-gray-900 text-white font-mono rounded shadow-lg">
       <h1 class="text-xl font-bold mb-4 text-yellow-400">FiveM Handling File</h1>
       <pre class="text-sm">
         &lt;CHandlingDataMgr&gt;
           &lt;HandlingData&gt;
             &lt;Item type="CHandlingData"&gt;
-            <!-- Vehicle Basics -->
                 <span class="text-yellow-400">--- Vehicle Basics:</span>
                 <span class="text-blue-400 clickable" @click="showPopover('handlingName')">handlingName:</span> <span class=text-green-400 > am187</span>
                 <span class="text-blue-400 clickable" @click="showPopover('fMass')">fMass:</span><span class="text-green-400"> 2700.0</span>
                 <span class="text-blue-400 clickable" @click="showPopover('fInitialDragCoeff')">fInitialDragCoeff:</span><span class="text-green-400"> 5.0</span>
                 <span class="text-blue-400 clickable" @click="showPopover('fDownforceModifier')">fDownforceModifier:</span><span class="text-green-400" > 0.0</span>
                 <span class="text-blue-400 clickable" @click="showPopover('fPercentSubmerged')">fPercentSubmerged:</span><span class="text-green-400"> 85.0</span>
-            <!-- Vehicle Dynamics -->
                 <span class="text-yellow-400">--- Vehicle Dynamics:</span>
                 <span class="text-blue-400 clickable" @click="showPopover('vecCentreOfMassOffset')">vecCentreOfMassOffset:</span><span class="text-green-400"> x=0.0, y=0.0, z=-0.0</span>
                 <span class="text-blue-400 clickable" @click="showPopover('vecInertiaMultiplier')">vecInertiaMultiplier:</span><span class="text-green-400"> x=0.0, y=0.0, z=-0.0</span>
-                <span class="text-blue-400 clickable" @click="showPopover('fDriveBiasFront')">fDriveBiasFront:</span><span class="text-green-400" > Fill In</span>
-            <!-- Transmission -->
+                <span class="text-blue-400 clickable" @click="showPopover('fDriveBiasFront')">fDriveBiasFront:</span><span class="text-green-400" > 0.0 or 0.5 or 1.0</span>
                 <span class="text-yellow-400">--- Transmission:</span>
-                <span class="text-blue-400 clickable" @click="showPopover('nInitialDriveGears')">nInitialDriveGears:</span><span class="text-green-400" > 1.00</span>
+                <span class="text-blue-400 clickable" @click="showPopover('nInitialDriveGears')">nInitialDriveGears:</span><span class="text-green-400" > 6</span>
                 <span class="text-blue-400 clickable" @click="showPopover('fInitialDriveForce')">fInitialDriveForce:</span><span class="text-green-400"> 1.00</span>
                 <span class="text-blue-400 clickable" @click="showPopover('fDriveInertia')">fDriveInertia:</span><span class="text-green-400"> 1.00</span>
                 <span class="text-blue-400 clickable" @click="showPopover('fClutchChangeRateScaleUpShift')">fClutchChangeRateScaleUpShift:</span><span class="text-green-400"> 1.00</span>
                 <span class="text-blue-400 clickable" @click="showPopover('fClutchChangeRateScaleDownShift')">fClutchChangeRateScaleDownShift:</span><span class="text-green-400"> 1.00</span>
-                <span class="text-blue-400 clickable" @click="showPopover('fInitialDriveMaxFlatVel')">fInitialDriveMaxFlatVel:</span><span class="text-green-400"> 200.0</span>
-            <!-- Braking and Steering -->
+                <span class="text-blue-400 clickable" @click="showPopover('fInitialDriveMaxFlatVel')">fInitialDriveMaxFlatVel:</span><span class="text-green-400"> 240.0</span>
                 <span class="text-yellow-400">--- Braking and Steering:</span>
                 <span class="text-blue-400 clickable" @click="showPopover('fBrakeForce')">fBrakeForce:</span><span class="text-green-400"> 0.8</span>
                 <span class="text-blue-400 clickable" @click="showPopover('fBrakeBiasFront')">fBrakeBiasFront:</span><span class="text-green-400" > 0.8</span>
@@ -33,53 +63,46 @@
                 <span class="text-blue-400 clickable" @click="showPopover('fSteeringLock')">fSteeringLock:</span><span class="text-green-400"> 40.0 - 45.0</span>
                 <span class="text-blue-400 clickable" @click="showPopover('fSuspensionForce')">fSuspensionForce:</span><span class="text-green-400"> 2.5</span>
                 <span class="text-blue-400 clickable" @click="showPopover('fTractionLossMult')">fTractionLossMult:</span><span class="text-green-400"> 1.0</span>
-            <!-- Tranction Control -->
                 <span class="text-yellow-400">--- Tranction Control:</span>
-                <span class="text-blue-400 clickable">fTractionCurveMax: </span><span class="text-green-400" @click="showPopover('fTractionCurveMax')">1.0</span>
-                <span class="text-blue-400 clickable">fTractionCurveMin: </span><span class="text-green-400" @click="showPopover('fTractionCurveMin')">1.0</span>
-                <span class="text-blue-400 clickable">fTractionCurveLateral: </span><span class="text-green-400" @click="showPopover('fTractionCurveLateral')">1.0</span>
-                <span class="text-blue-400 clickable">fTractionSpringDeltaMax: </span><span class="text-green-400" @click="showPopover('fTractionSpringDeltaMax')">1.0</span>
-                <span class="text-blue-400 clickable">fLowSpeedTractionLossMult: </span><span class="text-green-400" @click="showPopover('fLowSpeedTractionLossMult')">1.0</span>
-                <span class="text-blue-400 clickable">fCamberStiffnesss: </span><span class="text-green-400" @click="showPopover('fCamberStiffnesss')">1.0</span>
-                <span class="text-blue-400 clickable">fTractionBiasFront: </span><span class="text-green-400" @click="showPopover('fTractionBiasFront')">1.0</span>
-                <span class="text-blue-400 clickable">fTractionLossMult: </span><span class="text-green-400" @click="showPopover('fTractionLossMult')">1.0</span>
-            <!-- Suspension -->
+                <span class="text-blue-400 clickable" @click="showPopover('fTractionCurveMax')">fTractionCurveMax:</span><span class="text-green-400" > 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fTractionCurveMin')">fTractionCurveMin:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fTractionCurveLateral')">fTractionCurveLateral:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fTractionSpringDeltaMax')">fTractionSpringDeltaMax:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fLowSpeedTractionLossMult')">fLowSpeedTractionLossMult:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fCamberStiffnesss')">fCamberStiffnesss:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fTractionBiasFront')">fTractionBiasFront:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fTractionLossMult')">fTractionLossMult:</span><span class="text-green-400"> 1.0</span>
                 <span class="text-yellow-400">--- Suspension:</span>
-                <span class="text-blue-400 clickable">fSuspensionForce: </span><span class="text-green-400" @click="showPopover('fSuspensionForce')">1.0</span>
-                <span class="text-blue-400 clickable">fSuspensionCompDamp: </span><span class="text-green-400" @click="showPopover('fSuspensionCompDamp')">1.0</span>
-                <span class="text-blue-400 clickable">fSuspensionReboundDamp: </span><span class="text-green-400" @click="showPopover('fSuspensionReboundDamp')">1.0</span>
-                <span class="text-blue-400 clickable">fSuspensionUpperLimit: </span><span class="text-green-400" @click="showPopover('fSuspensionUpperLimit')">1.0</span>
-                <span class="text-blue-400 clickable">fSuspensionLowerLimit: </span><span class="text-green-400" @click="showPopover('fSuspensionLowerLimit')">1.0</span>
-                <span class="text-blue-400 clickable">fSuspensionRaise: </span><span class="text-green-400" @click="showPopover('fSuspensionRaise')">1.0</span>
-                <span class="text-blue-400 clickable">fSuspensionBiasFront: </span><span class="text-green-400" @click="showPopover('fSuspensionBiasFront')">1.0</span>
-            <!-- Anti-Roll Bars -->
+                <span class="text-blue-400 clickable" @click="showPopover('fSuspensionForce')">fSuspensionForce:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fSuspensionCompDamp')">fSuspensionCompDamp:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fSuspensionReboundDamp')">fSuspensionReboundDamp:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fSuspensionUpperLimit')">fSuspensionUpperLimit:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fSuspensionLowerLimit')">fSuspensionLowerLimit:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fSuspensionRaise')">fSuspensionRaise:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fSuspensionBiasFront')">fSuspensionBiasFront:</span><span class="text-green-400"> 1.0</span>
                 <span class="text-yellow-400">--- Anti-Roll Bars:</span>
-                <span class="text-blue-400 clickable">fAntiRollBarForce: </span><span class="text-green-400" @click="showPopover('fAntiRollBarForce')">1.0</span>
-                <span class="text-blue-400 clickable">fAntiRollBarBiasFront: </span><span class="text-green-400" @click="showPopover('fAntiRollBarBiasFront')">1.0</span>
-                <span class="text-blue-400 clickable">fRollCentreHeightFront: </span><span class="text-green-400" @click="showPopover('fRollCentreHeightFront')">1.0</span>
-                <span class="text-blue-400 clickable">fRollCentreHeightRear: </span><span class="text-green-400" @click="showPopover('fRollCentreHeightRear')">1.0</span>
-            <!-- Damage -->
+                <span class="text-blue-400 clickable" @click="showPopover('fAntiRollBarForce')">fAntiRollBarForce:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fAntiRollBarBiasFront')">fAntiRollBarBiasFront:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fRollCentreHeightFront')">fRollCentreHeightFront:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fRollCentreHeightRear')">fRollCentreHeightRear:</span><span class="text-green-400"> 1.0</span>
                 <span class="text-yellow-400">--- Vehicle Damage:</span>
-                <span class="text-blue-400 clickable">fCollisionDamageMult: </span><span class="text-green-400" @click="showPopover('fCollisionDamageMult')">1.0</span>
-                <span class="text-blue-400 clickable">fWeaponDamageMult: </span><span class="text-green-400" @click="showPopover('fWeaponDamageMult')">1.0</span>
-                <span class="text-blue-400 clickable">fDeformationDamageMult: </span><span class="text-green-400" @click="showPopover('fDeformationDamageMult')">1.0</span>
-                <span class="text-blue-400 clickable">fEngineDamageMult: </span><span class="text-green-400" @click="showPopover('fEngineDamageMult')">1.0</span>
-            <!-- Misc -->
+                <span class="text-blue-400 clickable" @click="showPopover('fCollisionDamageMult')">fCollisionDamageMult:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fWeaponDamageMult')">fWeaponDamageMult:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fDeformationDamageMult')">fDeformationDamageMult:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fEngineDamageMult')">fEngineDamageMult:</span><span class="text-green-400"> 1.0</span>
                 <span class="text-yellow-400">--- Misc:</span>
-                <span class="text-blue-400 clickable">fPetrolTankVolume: </span><span class="text-green-400" @click="showPopover('fPetrolTankVolume')">1.0</span>
-                <span class="text-blue-400 clickable">fOilVolume: </span><span class="text-green-400" @click="showPopover('fOilVolume')">1.0</span>
-                <span class="text-blue-400 clickable">fSeatOffsetDistX: </span><span class="text-green-400" @click="showPopover('fSeatOffsetDistX')">1.0</span>
-                <span class="text-blue-400 clickable">fSeatOffsetDistY: </span><span class="text-green-400" @click="showPopover('fSeatOffsetDistY')">1.0</span>
-                <span class="text-blue-400 clickable">fSeatOffsetDistZ: </span><span class="text-green-400" @click="showPopover('fSeatOffsetDistZ')">1.0</span>
-                <span class="text-blue-400 clickable">nMonetaryValue: </span><span class="text-green-400" @click="showPopover('nMonetaryValue')">1.0</span>
-            <!-- Flags and Handling Flags -->
+                <span class="text-blue-400 clickable" @click="showPopover('fPetrolTankVolume')">fPetrolTankVolume:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fOilVolume')">fOilVolume:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fSeatOffsetDistX')">fSeatOffsetDistX:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fSeatOffsetDistY')">fSeatOffsetDistY:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('fSeatOffsetDistZ')">fSeatOffsetDistZ:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('nMonetaryValue')">nMonetaryValue:</span><span class="text-green-400"> 1.0</span>
                 <span class="text-yellow-400">--- Flags and Handling:</span>
-                <span class="text-blue-400 clickable">strModelFlags: </span><span class="text-green-400" @click="showPopover('strModelFlags')">1.0</span>
-                <span class="text-blue-400 clickable">strHandlingFlags: </span><span class="text-green-400" @click="showPopover('strHandlingFlags')">1.0</span>
-                <span class="text-blue-400 clickable">strDamageFlags: </span><span class="text-green-400" @click="showPopover('strDamageFlags')">1.0</span>
-            <!-- AI Handling -->
+                <span class="text-blue-400 clickable" @click="showPopover('strModelFlags')">strModelFlags:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('strHandlingFlags')">strHandlingFlags:</span><span class="text-green-400"> 1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('strDamageFlags')">strDamageFlags:</span><span class="text-green-400"> 1.0</span>
                 <span class="text-yellow-400">--- AI Handling:</span>
-                <span class="text-blue-400 clickable">AIHandling: </span><span class="text-green-400" @click="showPopover('AIHandling')">1.0</span>
+                <span class="text-blue-400 clickable" @click="showPopover('AIHandling')">AIHandling:</span><span class="text-green-400"> 1.0</span>
             &lt;/Item&gt;
           &lt;/HandlingData&gt;
         &lt;/CHandlingDataMgr&gt;
@@ -116,7 +139,7 @@
             fDriveInertia: "Engine responsiveness. Controls how fast the engine revs in gear. Default is 1.0.",
             fClutchChangeRateScaleUpShift : "Clutch change rate scale upshift. Controls how fast the clutch engages during upshifts.",
             fClutchChangeRateScaleDownShift : "Clutch change rate scale downshift. Controls how fast the clutch engages during downshifts.",
-            fInitialDriveMaxFlatVel : "Initial drive max flat velocity. Controls the maximum speed the vehicle can reach.",
+            fInitialDriveMaxFlatVel :"Initial drive max flat velocity. Controls the maximum speed the vehicle can reach. Can be in either MPH or KPH. Default value is 240.0.",
             // Brakes and Steering
             fBrakeForce : "Brake force. Controls how quickly the vehicle brakes.",
             fBrakeBiasFront : "Front brake bias. Controls how much braking force is applied to the front wheels.",
@@ -164,20 +187,62 @@
             // AI Handling
             AIHandling : "AI handling. Controls the AI handling of the vehicle.",
         },
-      };
+         // Independent button popovers
+        buttonPopoverVisible: false,
+        currentButton: "",
+        buttonPopoverContent: "",
+        buttonHandlingComments: {
+            rageImport:
+            "Handling for Rage Import.\n" +
+            "- Typically used for dealerships.\n" +
+            " \n"+
+            "Recommended settings:\n" +
+            "- fTractionCurveMax: 3.0\n" +
+            "- fBrakeForce: 1.2\n" +
+            "- fSuspensionForce: 2.5",
+            rage1of1:
+            "- Handling for Rage 1 of 1.\n" +
+            "- Rare vehicle configurations.\n" +
+            " \n"+
+            "Recommended settings:\n" +
+            " - fDriveInertia: 1.5\n" +
+            " - fInitialDragCoeff: 8.0\n" +
+            " - fSuspensionReboundDamp: 2.8",
+            ragePoliceDep:
+            "- Handling for Rage Police Department.\n" +
+            "- Emergency vehicle performance.\n" +
+            " \n"+
+            "Recommended settings:\n" +
+            " - fBrakeBiasFront: 0.6\n" +
+            " - fTractionBiasFront: 0.55\n" +
+            " - fClutchChangeRateScaleUpShift: 3.2",
+        },
+        };
     },
     methods: {
-      showPopover(key) {
-        this.currentKey = key;
-        this.popoverContent = this.handlingComments[key] || "No details available.";
-        this.popoverVisible = true;
-      },
-      closePopover() {
-        this.popoverVisible = false;
-      },
+    // Existing popover logic
+    showPopover(key) {
+      this.currentKey = key;
+      this.popoverContent = this.handlingComments[key] || "No details available.";
+      this.popoverVisible = true;
     },
-  };
-  </script>
+    closePopover() {
+      this.popoverVisible = false;
+    },
+
+    // Independent button popover logic
+    showButtonPopover(buttonKey) {
+      this.currentButton = buttonKey;
+      this.buttonPopoverContent =
+        this.buttonHandlingComments[buttonKey] || "No details available.";
+      this.buttonPopoverVisible = true;
+    },
+    closeButtonPopover() {
+      this.buttonPopoverVisible = false;
+    },
+  },
+};
+</script>
   
   <style scoped>
   .clickable {

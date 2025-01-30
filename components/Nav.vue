@@ -12,7 +12,7 @@
 
 <template>
   <div class="button-container">
-    <UButton label="Your Guide" @click="isOpen = true" />
+    <UButton label="Quick Navigation" @click="isOpen = true" />
 
     <USlideover v-model="isOpen">
       <UCard
