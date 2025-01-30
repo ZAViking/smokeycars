@@ -17,7 +17,7 @@
     <USlideover v-model="isOpen">
       <UCard
         class="flex flex-col flex-1"
-        :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+        :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-grey-100 dark:divide-grey-800' }"
       >
         <template #header>
           <!-- <UButton
@@ -32,25 +32,25 @@
           /> -->
           <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="isOpen = false" />
 
-          <Placeholder class="h-8" />
+          <div class="h-8"></div>
         </template>
 
           <Placeholder class="h-full" />
           <UDivider
             label="Navigation"
-            :ui="{ label: 'text-primary-500 dark:text-primary-400' }"
+            :ui="{ label: 'text-white dark:text-white' }"
           />
           <NuxtLink to="/">Home</NuxtLink><br />
           <NuxtLink to="/About">About</NuxtLink><br />
           <UDivider
             label="FiveM Car Development"
-            :ui="{ label: 'text-primary-500 dark:text-primary-400' }"
+            :ui="{ label: 'text-white dark:text-white' }"
           />
           <NuxtLink to="/fivem-cars/car-handling">Car Handling Guide</NuxtLink><br />
           <NuxtLink to="/fivem-cars/">Nothing</NuxtLink><br />
           
         <template #footer>
-          <Placeholder class="h-8" />
+          <div class="h-8"></div>
         </template>
 
       </UCard>

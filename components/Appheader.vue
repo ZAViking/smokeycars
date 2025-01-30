@@ -4,15 +4,15 @@
         <!-- Logo -->
         <div class="flex items-center space-x-3">
           <img src="" alt="Website Logo" class="w-10 h-10 rounded-lg" />
-          <span class="text-xl font-bold">FiveM Car Hub</span>
+          <span class="text-xl font-bold">FiveM Hub</span>
         </div>
         <!-- Navigation -->
-        <nav class="hidden md:flex space-x-8">
+        <!-- <nav class="hidden md:flex space-x-8">
           <a href="/" class="hover:text-gray-300">Home</a>
           <a href="/cars" class="hover:text-gray-300">Cars</a>
           <a href="/categories" class="hover:text-gray-300">Categories</a>
           <a href="/contact" class="hover:text-gray-300">Contact</a>
-        </nav>
+        </nav> -->
         <!-- Mobile Menu Button -->
         <button class="md:hidden p-2 rounded bg-gray-800 hover:bg-gray-700">
           <svg
